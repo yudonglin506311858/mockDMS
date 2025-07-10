@@ -72,13 +72,11 @@ END {
 
 
 #然后统计氨基酸的长度
-#awk '/^>/ {if (seqlen){print seqlen}; printf substr($0, 2) " "; seqlen=0; next} {seqlen += length($0)} END {print seqlen}' unique_sequences.fasta > sequence_lengths.txt
 awk '/^>/ {if (seqlen){print seqlen}; printf substr($0, 2) " "; seqlen=0; next} {seqlen += length($0)} END {print seqlen}' unique_sequences.fasta | awk '{print $1, $NF}' > sequence_lengths.txt
 
 
 
 #保留特定长度氨基酸以上的蛋白质
-#awk 'BEGIN {RS=">"; ORS=""} length($2) >= 250 {print ">"$0}' extracted_sequences.fasta > filtered_sequences.fasta
 
 awk '/^>/ {
        if (seq) {
@@ -110,7 +108,6 @@ while read id; do efetch -db protein -id $id -format fasta; done < target_ids.tx
 
 
 # 运行 MAFFT 比对
-#mafft --auto --thread 60 filtered_sequences.fasta  > aligned.fasta
 mafft --retree 1  --thread 60 --maxiterate 0 filtered_extracted_sequences.fasta> aligned_sequences.fasta
 
 #鉴定相似性，筛选相似性在0.7以上的序列
