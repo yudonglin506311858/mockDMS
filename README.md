@@ -11,6 +11,8 @@ PSI-BLAST—efetch—MMSeqs2—MAFFT—DMS—ratio
 
 寻找同源性序列。准备protein.fasta。
 
+bash step1-homolog_search.sh
+
 ## step2-sequence_extract
 
 提取保守性序列。
