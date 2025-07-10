@@ -1,0 +1,39 @@
+
+# 读取计数文件
+count_data <- read.table("amino_acid_counts.txt", header=TRUE, row.names=1, sep="\t", check.names=FALSE)
+
+# 删除最后一行（gap统计行）
+count_data <- count_data[-nrow(count_data), ]
+
+# 计算频率矩阵
+freq_matrix <- sweep(count_data, 2, colSums(count_data), "/")
+freq_matrix[is.na(freq_matrix)] <- 0
+
+# 获取每个位置最高频率的氨基酸
+highest_aa <- apply(freq_matrix, 2, function(x) names(which.max(x)))
+highest_freq <- apply(freq_matrix, 2, max)
+
+# 创建结果数据框
+result_df <- data.frame(
+  Position = 1:ncol(freq_matrix),
+  Original_AA = strsplit(scan("cas12m.fasta", what="character", skip=1)[1], "")[[1]][1:ncol(freq_matrix)], 
+  Highest_AA = highest_aa,
+  Frequency = highest_freq,
+  stringsAsFactors = FALSE
+)
+
+# 分类匹配情况
+matched <- result_df[result_df$Original_AA == result_df$Highest_AA, ]
+mismatched <- result_df[result_df$Original_AA != result_df$Highest_AA, ]
+
+# 保存结果（不包含gap行）
+write.table(freq_matrix, "aa_frequencies_no_gap.txt", sep="\t", quote=FALSE)
+write.table(result_df, "all_positions_no_gap.txt", sep="\t", row.names=FALSE, quote=FALSE)
+write.table(matched, "conserved_positions.txt", sep="\t", row.names=FALSE, quote=FALSE) 
+write.table(mismatched, "mutated_positions.txt", sep="\t", row.names=FALSE, quote=FALSE)
+
+cat("分析完成！输出文件：\n",
+    "- 不包含gap的频率矩阵: aa_frequencies_no_gap.txt\n",
+    "- 所有位点: all_positions_no_gap.txt\n",
+    "- 保守位点: conserved_positions.txt\n", 
+    "- 突变位点: mutated_positions.txt\n")
