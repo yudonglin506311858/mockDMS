@@ -6,3 +6,7 @@ PSI-BLAST—efetch—MMSeqs2—MAFFT—DMS—ratio
 ## step0-dataset_prepare
 
 下载软件和数据
+
+## step1-homolog_search
+
+寻找同源性序列。
