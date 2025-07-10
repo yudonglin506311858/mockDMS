@@ -9,4 +9,4 @@ PSI-BLAST—efetch—MMSeqs2—MAFFT—DMS—ratio
 
 ## step1-homolog_search
 
-寻找同源性序列。
+寻找同源性序列。准备准备 protein.fasta。
