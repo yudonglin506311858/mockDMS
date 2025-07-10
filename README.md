@@ -19,6 +19,8 @@ PSI-BLAST—efetch—MMSeqs2—MAFFT—DMS—ratio
 
 得到amino_acid_counts.txt。
 
+bash step3-DMS_minic.sh
+
 ## step4-result_calculate
 
 得到具体的突变频率比例，并且输出突变频率最高的位点。
