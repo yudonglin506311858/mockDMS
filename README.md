@@ -15,6 +15,8 @@ PSI-BLAST—efetch—MMSeqs2—MAFFT—DMS—ratio
 
 提取保守性序列。
 
+bash step2-sequence_extract.sh
+
 ## step3-DMS_minic
 
 得到amino_acid_counts.txt。
