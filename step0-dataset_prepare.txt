@@ -1,0 +1,30 @@
+
+#软件安装
+wget -c https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.15.0+-x64-linux.tar.gz
+tar -zxvf ncbi-blast-2.15.0+-x64-linux.tar.gz
+mv ncbi-blast-2.15.0+ blast
+cd blast
+vi ~/.bashrc
+export PATH="/data/yudonglin/software/blast/bin:$PATH"
+source ~/.bashrc
+
+#数据库下载
+cd /data4/yudonglin/tnpB_project/cas12m
+perl /data/yudonglin/software/blast/bin/update_blastdb.pl --showall
+nohup perl /data/yudonglin/software/blast/bin/update_blastdb.pl --decompress nr &> update_nr.log &
+nohup perl /data/yudonglin/software/blast/bin/update_blastdb.pl --decompress nt &> update_nt.log &
+
+#https://ftp.ncbi.nlm.nih.gov/blast/db/
+#https://blast.ncbi.nlm.nih.gov/doc/blast-help/downloadblastdata.html
+#https://cloud.tencent.com/developer/article/1749413
+
+
+#下载完毕，构建数据库索引：
+#因为我们下载的是已经建好索引的数据库，所以省去了makeblastdb的过程。
+makeblastdb -dbtype nucl -in nt.fa -out nt.fa
+makeblastdb -dbtype prot -in nr.fa -out nr.fa
+#下载了新版本的nt数据库（V5），而这个数据库的比对，需要blast+ 2.8以上的版本，
+
+参考链接：
+https://zhuanlan.zhihu.com/p/612086327
+
